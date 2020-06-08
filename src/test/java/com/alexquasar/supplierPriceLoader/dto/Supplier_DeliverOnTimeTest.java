@@ -1,5 +1,6 @@
 package com.alexquasar.supplierPriceLoader.dto;
 
+import com.alexquasar.supplierPriceLoader.dto.supplier.SupplierDeliverOnTime;
 import com.alexquasar.supplierPriceLoader.entity.PriceItem;
 import lombok.SneakyThrows;
 import org.junit.Test;
@@ -13,7 +14,7 @@ import static org.junit.Assert.assertNotEquals;
 public class Supplier_DeliverOnTimeTest {
 
     private final String resourceFile = "loadFile.csv";
-    private Supplier_DeliverOnTime supplierDeliverOnTime = new Supplier_DeliverOnTime();
+    private SupplierDeliverOnTime supplierDeliverOnTime = new SupplierDeliverOnTime();
 
     @Test
     @SneakyThrows
@@ -50,7 +51,7 @@ public class Supplier_DeliverOnTimeTest {
     }
 
     private String getFilePath() {
-        URL schema = Supplier_DeliverOnTime.class.getClassLoader().getResource(resourceFile);
+        URL schema = SupplierDeliverOnTime.class.getClassLoader().getResource(resourceFile);
         if (schema != null) {
             return schema.getPath().replace("%20", " ");
         }

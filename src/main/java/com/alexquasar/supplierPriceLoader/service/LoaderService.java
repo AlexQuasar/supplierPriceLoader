@@ -1,11 +1,12 @@
 package com.alexquasar.supplierPriceLoader.service;
 
-import com.alexquasar.supplierPriceLoader.dto.SupplierConfig;
-import com.alexquasar.supplierPriceLoader.dto.Supplier_DeliverOnTime;
+import com.alexquasar.supplierPriceLoader.dto.supplier.SupplierConfig;
+import com.alexquasar.supplierPriceLoader.dto.supplier.SupplierIdentifier;
 import com.alexquasar.supplierPriceLoader.entity.PriceItem;
 import com.alexquasar.supplierPriceLoader.exception.ServiceException;
 import com.alexquasar.supplierPriceLoader.repository.PriceItemsRepository;
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -14,51 +15,43 @@ import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.Multipart;
 import javax.mail.Part;
-import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.internet.MimeBodyPart;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 @Service
 public class LoaderService {
 
     private PriceItemsRepository priceItemsRepository;
 
+    private StoreIMAPConnectorService connector;
+    private SupplierIdentifier supplierIdentifier = new SupplierIdentifier();
     private final String multipart = "multipart";
-    private final String saveDirectory = "F:\\Java\\IntelliJ IDEA Workspace Directory\\loadFile.csv";
 
-    public LoaderService(PriceItemsRepository priceItemsRepository) {
+    @Value("${alex.tempDirectory}")
+    private String saveDirectory;
+
+    public LoaderService(PriceItemsRepository priceItemsRepository, StoreIMAPConnectorService connector) {
         this.priceItemsRepository = priceItemsRepository;
+        this.connector = connector;
     }
 
     @SneakyThrows
     public void loadPriceItems() {
-        Properties properties = new Properties();
-        properties.setProperty("mail.imap.ssl.enable", "true");
-
-        Session session = Session.getDefaultInstance(properties);
-        Store store = null;
+        Store store = connector.storeConnect();
+        Folder folder = null;
         try {
-            store = session.getStore("imap");
-            store.connect("imap.yandex.ru", "email@yandex.ru", "password"); // необходимо настроить под свою почту
-            Folder folder = null;
-            try {
-                folder = store.getFolder("INBOX");
-                folder.open(Folder.READ_WRITE);
+            folder = store.getFolder("INBOX");
+            folder.open(Folder.READ_WRITE);
 
-                readAllMessages(folder);
-            } finally {
-                if (folder != null) {
-                    folder.close(false);
-                }
-            }
+            readAllMessages(folder);
         } finally {
-            if (store != null) {
-                store.close();
+            if (folder != null) {
+                folder.close(false);
             }
         }
+        store.close();
     }
 
     @SneakyThrows
@@ -102,8 +95,8 @@ public class LoaderService {
     private Boolean loadSupplierData(String supplierName) {
         List<PriceItem> priceItems = new ArrayList<>();
 
-        if (Supplier_DeliverOnTime.NAME.equals(supplierName)) {
-            SupplierConfig supplier = new Supplier_DeliverOnTime();
+        SupplierConfig supplier = supplierIdentifier.getSupplierConfig(supplierName);
+        if (supplier != null) {
             priceItems = executeLoad(supplier);
         }
 

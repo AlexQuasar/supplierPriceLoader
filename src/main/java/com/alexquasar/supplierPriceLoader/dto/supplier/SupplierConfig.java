@@ -1,4 +1,4 @@
-package com.alexquasar.supplierPriceLoader.dto;
+package com.alexquasar.supplierPriceLoader.dto.supplier;
 
 import com.alexquasar.supplierPriceLoader.entity.PriceItem;
 

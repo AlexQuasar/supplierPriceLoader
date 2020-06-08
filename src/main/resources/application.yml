@@ -18,3 +18,9 @@ alex:
     user: test
     password: test
     driverClass: org.h2.Driver
+  mailProperty:
+    host: "imap.yandex.ru"
+    user: "email@yandex.ru"
+    password: "password"
+    isSSL: true
+  tempDirectory: "F:\\Java\\IntelliJ IDEA Workspace Directory\\loadFile.csv"

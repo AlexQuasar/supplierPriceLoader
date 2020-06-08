@@ -1,4 +1,4 @@
-package com.alexquasar.supplierPriceLoader.dto;
+package com.alexquasar.supplierPriceLoader.dto.supplier;
 
 import com.alexquasar.supplierPriceLoader.entity.PriceItem;
 
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Supplier_DeliverOnTime implements SupplierConfig {
+public class SupplierDeliverOnTime implements SupplierConfig {
 
     public static final String NAME = "deliverOnTime@mail.ru";
     private final String regex = "[^\\da-zA-Zа-яёА-ЯЁ0-9]";
