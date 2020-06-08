@@ -1,0 +1,38 @@
+buildscript {
+    ext {
+        springBootVersion = '2.2.7.RELEASE'
+        lombokVersion = '1.18.8'
+    }
+}
+
+plugins {
+    id 'groovy'
+    id 'java'
+    id 'org.springframework.boot' version "${springBootVersion}"
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+}
+
+group 'com.alexquasar'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.sun.mail:javax.mail:1.5.2'
+
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
+
+    implementation "org.projectlombok:lombok:${lombokVersion}"
+    implementation 'org.liquibase:liquibase-core'
+    implementation 'com.h2database:h2:1.4.196'
+
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+}

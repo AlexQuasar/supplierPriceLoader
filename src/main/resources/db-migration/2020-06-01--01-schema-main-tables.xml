@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="AlexQuasar" id="create-price_items">
+        <createTable tableName="price_items">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_price_items"/>
+            </column>
+            <column name="vendor" type="varchar(64)" remarks="производитель"/>
+            <column name="number" type="varchar(64)" remarks="номер запчасти"/>
+            <column name="search_vendor" type="varchar(64)" remarks="производитель для поиска"/>
+            <column name="search_number" type="varchar(64)" remarks="номер для поиска"/>
+            <column name="description" type="varchar(512)" remarks="наименование"/>
+            <column name="price" type="decimal(18,2)" remarks="цена"/>
+            <column name="count" type="int" remarks="количество"/>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
